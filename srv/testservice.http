@@ -60,9 +60,9 @@ content-length: 52
 ###
 POST http://localhost:4004/odata/v4/my/Chart_of_Accounts
 content-type: application/json
-{    	"Id": 8,
-	"GL_Account": 800700,
-	"Description": "hiii",
+{    	"Id": 127,
+	"GL_Account": 90,
+	"Description": "hiii dlkj",
 	"GL_Account_Posting_Block": "2 hdggjdhd",
 	"Open_Item_Management": "No",
 	"GL_Account_Type": "ACLEAR - Accruals or clearings"
@@ -70,10 +70,10 @@ content-type: application/json
 
 HTTP/1.1 500  - Internal Server Error
 x-powered-by: Express
-x-correlation-id: 987469d8-e4cb-4944-b4fa-892ca65090c1
+x-correlation-id: 9f107fc6-ec88-4c5a-b7e4-f6837ae33c4e
 odata-version: 4.0
 content-type: application/json;odata.metadata=minimal
-date: Wed, 31 Jan 2024 16:45:39 GMT
+date: Wed, 31 Jan 2024 20:09:41 GMT
 connection: close
 content-length: 84
 ###

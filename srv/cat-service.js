@@ -110,7 +110,8 @@ class MyService extends cds.ApplicationService {
 
             console.log(keys, values);
             const insertedData = await INSERT.into(Chart_of_Accounts).columns(keys).values(values);
-            return insertedData;
+            console.log(insertedData)
+            return {insertedData};
 
             // try {
             //     const tranData = req.data;
