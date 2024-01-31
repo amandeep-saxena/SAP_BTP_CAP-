@@ -1,0 +1,89 @@
+PUT http://localhost:4004/odata/v4/my/Chart_of_Accounts/2
+content-type: application/json
+{
+    "GL_Account": 1400,
+	"Description": "aman deep saxena ",
+	"GL_Account_Posting_Block": "2 - Only automatic postings allowed",
+	"Open_Item_Management": "yes",
+	"GL_Account_Type": "ACLEAR - Accruals or clearings"
+}
+
+HTTP/1.1 200  - OK
+x-powered-by: Express
+x-correlation-id: 9c751477-77a3-447b-b52c-2e158d503e74
+odata-version: 4.0
+content-type: application/json;odata.metadata=minimal
+date: Wed, 31 Jan 2024 16:09:38 GMT
+connection: close
+content-length: 56
+###
+GET http://localhost:4004/odata/v4/my/Chart_of_Accounts/2
+
+HTTP/1.1 200  - OK
+x-powered-by: Express
+x-correlation-id: 39a734e8-5929-4f6b-bcca-6f051c5bc838
+odata-version: 4.0
+content-type: application/json;odata.metadata=minimal
+date: Wed, 31 Jan 2024 14:46:26 GMT
+connection: close
+content-length: 260
+###
+
+GET http://localhost:4004/odata/v4/my/PurchasesInfo/3
+
+HTTP/1.1 200  - OK
+x-powered-by: Express
+x-correlation-id: 0c39a28d-549d-41d4-8740-7efa7f2219b0
+odata-version: 4.0
+content-type: application/json;odata.metadata=minimal
+date: Wed, 31 Jan 2024 14:13:18 GMT
+connection: close
+content-length: 120
+###
+
+PATCH http://localhost:4004/odata/v4/my/PurchasesInfo/3
+content-type: application/json
+  {
+     "fromDate": "2023-05-31",
+     "toDate": "2035-05-31",
+     "projectId": 12
+  }
+
+HTTP/1.1 200  - OK
+x-powered-by: Express
+x-correlation-id: 68f1f7c1-7ce1-495d-b213-eec8906ab7e6
+odata-version: 4.0
+content-type: application/json;odata.metadata=minimal
+date: Wed, 31 Jan 2024 14:12:56 GMT
+connection: close
+content-length: 52
+###
+POST http://localhost:4004/odata/v4/my/Chart_of_Accounts
+content-type: application/json
+{    	"Id": 8,
+	"GL_Account": 800700,
+	"Description": "hiii",
+	"GL_Account_Posting_Block": "2 hdggjdhd",
+	"Open_Item_Management": "No",
+	"GL_Account_Type": "ACLEAR - Accruals or clearings"
+}
+
+HTTP/1.1 500  - Internal Server Error
+x-powered-by: Express
+x-correlation-id: 987469d8-e4cb-4944-b4fa-892ca65090c1
+odata-version: 4.0
+content-type: application/json;odata.metadata=minimal
+date: Wed, 31 Jan 2024 16:45:39 GMT
+connection: close
+content-length: 84
+###
+GET http://localhost:4004/odata/v4/my/Chart_of_Accounts
+
+HTTP/1.1 200  - OK
+x-powered-by: Express
+x-correlation-id: 2d69a1c9-1cc9-4677-9660-0db007ded868
+odata-version: 4.0
+content-type: application/json;odata.metadata=minimal
+date: Wed, 31 Jan 2024 16:38:41 GMT
+connection: close
+content-length: 1096

@@ -1,0 +1,82 @@
+_schema-version: "3.1"
+ID: MorescoApp
+description: A simple CAP project.
+version: 1.0.0
+modules:
+- name: MorescoApp-srv
+  type: nodejs
+  path: gen/srv
+  requires:
+  - name: MorescoApp-auth
+  - name: MorescoApp-db
+  provides:
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+  parameters:
+    buildpack: nodejs_buildpack
+  build-parameters:
+    builder: npm
+- name: MorescoApp-db-deployer
+  type: hdb
+  path: db
+  requires:
+  - name: MorescoApp-db
+    properties:
+      TARGET_CONTAINER: ~{hdi-container-name}
+  - name: cross-container-service-3
+    group: SERVICE_REPLACEMENTS
+    properties:
+      key: ServiceName_1
+      service: ~{the-service-name}
+  parameters:
+    buildpack: nodejs_buildpack
+- name: MorescoApp
+  type: approuter.nodejs
+  path: app/
+  requires:
+  - name: srv-api
+    group: destinations
+    properties:
+      forwardAuthToken: true
+      name: srv-api
+      url: ~{srv-url}
+  - name: MorescoApp-auth
+  parameters:
+    disk-quota: 256M
+    keep-existing-routes: true
+    memory: 256M
+resources:
+- name: MorescoApp-auth
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      tenant-mode: dedicated
+      xsappname: MorescoApp-${org}-${space}
+    path: ./xs-security.json
+    service: xsuaa
+    service-plan: application
+- name: MorescoApp-db
+  type: com.sap.xs.hdi-container
+  parameters:
+    service: hana
+    service-plan: hdi-shared
+  properties:
+    hdi-container-name: ${service-name}
+- name: cross-container-service-1
+  type: deleteme
+- name: cross-container-service-2
+  type: deleteme
+- name: cross-container-service-3
+  type: org.cloudfoundry.existing-service
+  parameters:
+    service-name: MorescoApp-db
+  properties:
+    the-service-name: ${service-name}
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npx cds build --production
