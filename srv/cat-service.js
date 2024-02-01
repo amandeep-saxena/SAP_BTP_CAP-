@@ -25,13 +25,10 @@ class MyService extends cds.ApplicationService {
 
         })
 
-
         this.on('CREATE', 'PurchasesInfo', async (req) => {
             try {
-
                 let { data } = req;
                 console.log({ data })
-
                 for (let i = 0; i < data.length; i++) {
                     await INSERT.into(PurchasesInfo)
                         .columns("fromDate", "toDate", "projectId")
@@ -39,9 +36,7 @@ class MyService extends cds.ApplicationService {
                 }
                 let addedData = await SELECT.from(PurchasesInfo);
                 return { addedData };
-
             } catch (error) {
-
                 console.error("Error in 'READ' handler:", error);
                 throw error;
             }
@@ -72,12 +67,7 @@ class MyService extends cds.ApplicationService {
         //     return record;
         //   });
 
-
-
-
-
         this.on('UPDATE', 'PurchasesInfo', async (req) => {
-
             const { Id } = req.params;
             const { data } = req;
             console.log(Id)
@@ -92,7 +82,6 @@ class MyService extends cds.ApplicationService {
 
 
         this.on('UPDATE', 'Chart_of_Accounts', async (req) => {
-
             const { Id } = req.params;
             const { data } = req;
             console.log(Id)
@@ -111,7 +100,7 @@ class MyService extends cds.ApplicationService {
             console.log(keys, values);
             const insertedData = await INSERT.into(Chart_of_Accounts).columns(keys).values(values);
             console.log(insertedData)
-            return {insertedData};
+            return { insertedData };
 
             // try {
             //     const tranData = req.data;
@@ -137,12 +126,7 @@ class MyService extends cds.ApplicationService {
             //     throw error;
             // }
 
-
-           
         });
-
-
-
         await super.init();
     }
 }
