@@ -11,6 +11,7 @@ class MyService extends cds.ApplicationService {
 
         const { PurchasesInfo } = cds.entities('Moresco');
         const { Chart_of_Accounts } = cds.entities('Moresco');
+
         this.on('READ', 'dup', async (req) => {
 
             let add = await SELECT.from(PurchasesInfo)
@@ -25,72 +26,34 @@ class MyService extends cds.ApplicationService {
 
         })
 
+
         this.on('CREATE', 'PurchasesInfo', async (req) => {
-            try {
-                let { data } = req;
-                console.log({ data })
-                for (let i = 0; i < data.length; i++) {
-                    await INSERT.into(PurchasesInfo)
-                        .columns("fromDate", "toDate", "projectId")
-                        .values(data[i]['Id'], data[i]['fromDate'], data[i]['toDate'], data[i]['projectId']);
-                }
-                let addedData = await SELECT.from(PurchasesInfo);
-                return { addedData };
-            } catch (error) {
-                console.error("Error in 'READ' handler:", error);
-                throw error;
+            // const { data } = req;
+            // const keys = Object.keys(data);
+            // const values = Object.values(data);
+
+            // console.log(keys, values);
+            // const insertedData = await INSERT.into(PurchasesInfo).columns(keys).values(values);
+            // return insertedData;
+
+            let { data } = req;
+            console.log(data);
+
+            const insertPromises = [];
+
+            for (let i = 0; i < data.length; i++) {
+
+                const insertPromise = INSERT.into(PurchasesInfo)
+                    .columns("Id", "fromDate", "toDate", "projectId")
+                    .values(data[i]['Id'], data[i]['fromDate'], data[i]['toDate'], data[i]['projectId']);
+
+                insertPromises.push(insertPromise);
             }
 
+            return insertPromises;
+
+
         })
-
-        // // let tranData = [{
-        // //     "Id": 6,
-        // //     "fromDate": "2023-03-07",
-        // //     "toDate": "2024-06-16",
-        // //     "projectId": 23
-        // // }]
-        // let tranData = req.data
-
-        // for (let i = 0; i < tranData.length; i++) {
-        //     await INSERT.into(PurchasesInfo)
-        //         .columns("Id", "fromDate", "toDate", "projectId")
-        //         .values(tranData[i]['Id'], tranData[i]['fromDate'], tranData[i]['toDate'], tranData[i]['projectId']);
-        // }
-        // let add = await SELECT.from(PurchasesInfo);
-        // return add;
-
-
-        // this.on('READ', 'PurchasesInfo', async (req) => {
-        //     
-        //     const { ID } = req.params;
-        //     const record = await SELECT.from(PurchasesInfo).where({ ID });
-        //     return record;
-        //   });
-
-        this.on('UPDATE', 'PurchasesInfo', async (req) => {
-            const { Id } = req.params;
-            const { data } = req;
-            console.log(Id)
-            console.log("data", data)
-            const result = await UPDATE(PurchasesInfo).set(data).where({ Id: data.Id });
-            // console.log(JSON.stringify(result))
-            return { result };
-        });
-
-
-        /////// update service ////////////////////////////////////////////////
-
-
-        this.on('UPDATE', 'Chart_of_Accounts', async (req) => {
-            const { Id } = req.params;
-            const { data } = req;
-            console.log(Id)
-            console.log("data", data)
-            const result = await UPDATE(Chart_of_Accounts).set(data).where({ Id: data.Id });
-            // console.log(JSON.stringify(result))
-            return { result };
-        });
-
 
         this.on('CREATE', 'Chart_of_Accounts', async (req) => {
             const { data } = req;
@@ -99,8 +62,7 @@ class MyService extends cds.ApplicationService {
 
             console.log(keys, values);
             const insertedData = await INSERT.into(Chart_of_Accounts).columns(keys).values(values);
-            console.log(insertedData)
-            return { insertedData };
+            return insertedData;
 
             // try {
             //     const tranData = req.data;
@@ -127,6 +89,81 @@ class MyService extends cds.ApplicationService {
             // }
 
         });
+
+        // // let tranData = [{
+        // //     "Id": 6,
+        // //     "fromDate": "2023-03-07",
+        // //     "toDate": "2024-06-16",
+        // //     "projectId": 23
+        // // }]
+        // let tranData = req.data
+
+        // for (let i = 0; i < tranData.length; i++) {
+        //     await INSERT.into(PurchasesInfo)
+        //         .columns("Id", "fromDate", "toDate", "projectId")
+        //         .values(tranData[i]['Id'], tranData[i]['fromDate'], tranData[i]['toDate'], tranData[i]['projectId']);
+        // }
+        // let add = await SELECT.from(PurchasesInfo);
+        // return add;
+
+
+        // this.on('READ', 'PurchasesInfo', async (req) => {
+        //     
+        //     const { ID } = req.params;
+        //     const record = await SELECT.from(PurchasesInfo).where({ ID });
+        //     return record;
+        //   });
+
+
+        this.on('UPDATE', 'PurchasesInfo', async (req) => {
+
+            const { Id } = req.params;
+            const { data } = req;
+            console.log(Id)
+            console.log("data", data)
+            const result = await UPDATE(PurchasesInfo).set(data).where({ Id: data.Id });
+            // console.log(JSON.stringify(result))
+            return { result };
+        });
+
+
+        /////// update service ////////////////////////////////////////////////
+
+
+        this.on('UPDATE', 'Chart_of_Accounts', async (req) => {
+
+            const { Id } = req.params;
+            const { data } = req;
+            console.log(Id)
+            console.log("data", data)
+            const result = await UPDATE(Chart_of_Accounts).set(data).where({ Id: data.Id });
+            // console.log(JSON.stringify(result))
+            return { result };
+        });
+
+        this.on('READ', 'Chart_of_Accounts', async (req) => {
+            const { Id } = req.params;
+            console.log(Id);
+            const recordTo = await DELETE.from(Chart_of_Accounts).where({ Id });
+            console.log(recordTo)
+            return recordTo
+            // return { recordTo, success: true, message: `Record with ID ${Id} deleted successfully.` };
+        })
+
+
+        this.on('READ', 'PurchasesInfo', async (req) => {
+            const { Id } = req.params;
+            console.log(Id);
+            const recordTo = await DELETE.from(PurchasesInfo).where({ Id });
+            console.log(recordTo)
+            return { recordTo }
+            // return { recordTo, success: true, message: `Record with ID ${Id} deleted successfully.` };
+        })
+
+
+
+        
+
         await super.init();
     }
 }
