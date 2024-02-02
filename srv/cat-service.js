@@ -2,6 +2,7 @@ const cds = require('@sap/cds');
 const express = require('express');
 const req = require('express/lib/request');
 const { write } = require('fs');
+const { userInfo } = require('os');
 app = express();
 
 class MyService extends cds.ApplicationService {
@@ -9,8 +10,7 @@ class MyService extends cds.ApplicationService {
     async init() {
         // const db = await cds.connect.to('db');
 
-        const { PurchasesInfo } = cds.entities('Moresco');
-        const { Chart_of_Accounts } = cds.entities('Moresco');
+        const { PurchasesInfo, Chart_of_Accounts, UserInfo } = cds.entities('Moresco');
 
         this.on('READ', 'dup', async (req) => {
 
@@ -154,16 +154,34 @@ class MyService extends cds.ApplicationService {
         this.on('READ', 'PurchasesInfo', async (req) => {
             const { Id } = req.params;
             console.log(Id);
-            const recordTo = await DELETE.from(PurchasesInfo).where({ Id });
+            const recordTo = await DELETE.from(PurchasesInfo).where({ Id })
             console.log(recordTo)
             return { recordTo }
             // return { recordTo, success: true, message: `Record with ID ${Id} deleted successfully.` };
         })
 
+        this.on('READ', async (req) => {
+
+            const result = await SELECT.from(UserInfo);
+            return result;
+        });
 
 
-        
+        this.on('CREATE', 'UserInfo', async (req) => {
 
+            const { data } = req;
+            const keys = Object.keys(data);
+            const values = Object.values(data);
+
+            console.log(keys, values);
+            const insertedData = await INSERT.into(UserInfo).columns(keys).values(values);
+            return insertedData;
+
+        })
+        this.on('READ', 'loginUser',(req) => {
+           
+            
+        })
         await super.init();
     }
 }

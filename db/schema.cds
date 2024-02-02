@@ -20,3 +20,11 @@ entity Chart_of_Accounts {
         GL_Account_Type          : String;
 
 }
+
+
+entity User {
+    key id       : Integer;
+        name     : String;
+        email    : String;
+        password : String;
+}

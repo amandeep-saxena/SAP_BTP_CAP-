@@ -44,38 +44,38 @@ content-length: 120
 PATCH http://localhost:4004/odata/v4/my/PurchasesInfo/3
 content-type: application/json
   {
-     "fromDate": "2023-05-31",
+     "fromDate": "2023-05-13",
      "toDate": "2035-05-31",
      "projectId": 12
   }
 
 HTTP/1.1 200  - OK
 x-powered-by: Express
-x-correlation-id: 68f1f7c1-7ce1-495d-b213-eec8906ab7e6
+x-correlation-id: a7645215-2d37-4dac-9dbc-b4919433766d
 odata-version: 4.0
 content-type: application/json;odata.metadata=minimal
-date: Wed, 31 Jan 2024 14:12:56 GMT
+date: Thu, 01 Feb 2024 21:53:33 GMT
 connection: close
 content-length: 52
 ###
 POST http://localhost:4004/odata/v4/my/Chart_of_Accounts
 content-type: application/json
-{    	"Id": 127,
-	"GL_Account": 90,
-	"Description": "hiii dlkj",
+{    	"Id": 123,
+	"GL_Account": 265,
+	"Description": "hiii dlkjfsdf",
 	"GL_Account_Posting_Block": "2 hdggjdhd",
 	"Open_Item_Management": "No",
 	"GL_Account_Type": "ACLEAR - Accruals or clearings"
 }
 
-HTTP/1.1 500  - Internal Server Error
+HTTP/1.1 400  - Bad Request
 x-powered-by: Express
-x-correlation-id: 9f107fc6-ec88-4c5a-b7e4-f6837ae33c4e
+x-correlation-id: 259ffbb3-d7fe-4d74-b17c-992b1954d33a
 odata-version: 4.0
 content-type: application/json;odata.metadata=minimal
-date: Wed, 31 Jan 2024 20:09:41 GMT
+date: Thu, 01 Feb 2024 21:54:59 GMT
 connection: close
-content-length: 84
+content-length: 86
 ###
 GET http://localhost:4004/odata/v4/my/Chart_of_Accounts
 
@@ -87,3 +87,32 @@ content-type: application/json;odata.metadata=minimal
 date: Wed, 31 Jan 2024 16:38:41 GMT
 connection: close
 content-length: 1096
+###
+GET http://localhost:4004/odata/v4/my/UserInfo
+
+HTTP/1.1 200  - OK
+x-powered-by: Express
+x-correlation-id: 99341890-737a-4947-abc8-0dd9c4c7c73d
+odata-version: 4.0
+content-type: application/json;odata.metadata=minimal
+date: Fri, 02 Feb 2024 14:19:10 GMT
+connection: close
+content-length: 138
+###
+ DELETE http://localhost:4004/odata/v4/my/PurchasesInfo/1
+
+HTTP/1.1 204  - No Content
+x-powered-by: Express
+x-correlation-id: a510e2e3-47c0-43fc-a0cc-15b569a93593
+odata-version: 4.0
+date: Thu, 01 Feb 2024 21:14:16 GMT
+connection: close
+###
+POST http://localhost:4004/odata/v4/my/UserInfo
+content-type: application/json 
+{
+	"id": 3,
+	"name": "deep",
+	"email": "aman0@gmail.com",
+	"password": "aman12"
+}
